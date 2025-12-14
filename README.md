@@ -1,2 +1,25 @@
 # homebridge-signalrgb
-Connect Signal RGB to homebridge locally
+
+A simple Homebridge platform plugin to control SignalRGB over its local REST API.
+
+## What it exposes in HomeKit
+- **SignalRGB Rainbow** (momentary switch)
+- **SignalRGB Off** (momentary switch; sets Solid Color to black)
+- **Pause Lighting** (toggle switch; ON = play, OFF = pause)
+
+## Configuration
+In Homebridge UI, add the platform and set:
+- **host**: the LAN IP of the PC running SignalRGB (example: `192.168.2.112`)
+- **port**: default `16038`
+
+## Development
+```bash
+npm install
+npm run build
+```
+
+## Install (local)
+```bash
+sudo -u homebridge /opt/homebridge/bin/npm install --prefix /var/lib/homebridge /path/to/homebridge-signalrgb
+sudo hb-service restart
+```

@@ -1,0 +1,31 @@
+{
+  "pluginAlias": "SignalRgbPlatform",
+  "pluginType": "platform",
+  "singular": false,
+  "strictValidation": false,
+  "schema": {
+    "type": "object",
+    "required": [
+      "name",
+      "host"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "name": {
+        "title": "Name",
+        "type": "string",
+        "default": "SignalRGB"
+      },
+      "host": {
+        "title": "SignalRGB Host (PC IP)",
+        "type": "string",
+        "default": "192.168.1.100"
+      },
+      "port": {
+        "title": "SignalRGB Port",
+        "type": "integer",
+        "default": 16038
+      }
+    }
+  }
+}
