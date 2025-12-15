@@ -4,7 +4,7 @@ A simple Homebridge platform plugin to control SignalRGB over its local REST API
 
 ## What it exposes in HomeKit
 - **SignalRGB Rainbow** (momentary switch)
-- **SignalRGB Off** (momentary switch; sets Solid Color to black)
+- **Solid** (momentary switch; sets Solid to the last selected color)
 - **Pause Lighting** (toggle switch; ON = play, OFF = pause)
 
 ## Configuration
