@@ -53,14 +53,14 @@ export class SignalRgbPlatform implements DynamicPlatformPlugin {
     // Momentary: Rainbow
     await this.ensureMomentarySwitch(
       'signalrgb-rainbow-btn',
-      'SignalRGB Rainbow',
+      'Rainbow',
       async () => this.apiClient.rainbow(),
     );
 
     // Momentary: Off (solid black)
     await this.ensureMomentarySwitch(
       'signalrgb-off-btn',
-      'SignalRGB Off',
+      'Solid',
       async () => this.apiClient.off(),
     );
 
