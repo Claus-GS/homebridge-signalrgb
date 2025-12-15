@@ -26,7 +26,7 @@ export class SignalRgbPlatform implements DynamicPlatformPlugin {
     this.Service = this.api.hap.Service;
     this.Characteristic = this.api.hap.Characteristic;
 
-    const host = (this.config.host as string) ?? '';
+    const host = this.config.host as string;
     const port = (this.config.port as number) ?? 16038;
 
     const baseUrl = `http://${host}:${port}/api/v1`;
@@ -42,11 +42,10 @@ export class SignalRgbPlatform implements DynamicPlatformPlugin {
   }
 
   async discoverDevices() {
-    // Remove old Lightbulb (legacy)
+    // Remove legacy light
     const oldUuid = this.api.hap.uuid.generate('signalrgb-main');
     const old = this.accessories.find(a => a.UUID === oldUuid);
     if (old) {
-      this.log.info('[SignalRGB] Removing old "SignalRGB" light accessory');
       this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [old]);
     }
 
@@ -57,16 +56,14 @@ export class SignalRgbPlatform implements DynamicPlatformPlugin {
       async () => this.apiClient.rainbow(),
     );
 
-    // Momentary: Off (solid black)
+    // Momentary: Solid (black / off)
     await this.ensureMomentarySwitch(
       'signalrgb-off-btn',
       'Solid',
       async () => this.apiClient.off(),
     );
 
-    // Toggle: Pause Lighting (INVERTED as requested)
-    // Switch ON  -> enabled true  (start lighting)
-    // Switch OFF -> enabled false (stop lighting)
+    // Toggle: Pause / Play
     await this.ensurePauseSwitch('signalrgb-pause', 'Pause Lighting');
   }
 
@@ -76,7 +73,7 @@ export class SignalRgbPlatform implements DynamicPlatformPlugin {
     action: () => Promise<void>,
   ) {
     const uuid = this.api.hap.uuid.generate(key);
-    const existing = this.accessories.find((a) => a.UUID === uuid);
+    const existing = this.accessories.find(a => a.UUID === uuid);
 
     const accessory = existing ?? new this.api.platformAccessory(name, uuid);
 
@@ -91,11 +88,8 @@ export class SignalRgbPlatform implements DynamicPlatformPlugin {
       .onSet(async (value: CharacteristicValue) => {
         if (!value) return;
 
-        this.log.info(`[SignalRGB] Button pressed: ${name}`);
         try {
           await action();
-        } catch (e) {
-          this.log.error(`[SignalRGB] ${name} failed: ${String(e)}`);
         } finally {
           setTimeout(() => {
             service.updateCharacteristic(this.Characteristic.On, false);
@@ -110,7 +104,7 @@ export class SignalRgbPlatform implements DynamicPlatformPlugin {
 
   private async ensurePauseSwitch(key: string, name: string) {
     const uuid = this.api.hap.uuid.generate(key);
-    const existing = this.accessories.find((a) => a.UUID === uuid);
+    const existing = this.accessories.find(a => a.UUID === uuid);
 
     const accessory = existing ?? new this.api.platformAccessory(name, uuid);
 
@@ -122,24 +116,10 @@ export class SignalRgbPlatform implements DynamicPlatformPlugin {
 
     service.getCharacteristic(this.Characteristic.On)
       .onGet(async () => {
-        // ON means enabled true (lighting running)
-        const enabled = await this.apiClient.getCanvasEnabled();
-        return enabled;
+        return await this.apiClient.getCanvasEnabled();
       })
       .onSet(async (value: CharacteristicValue) => {
-        const enabled = !!value; // ON => start, OFF => stop
-        try {
-          await this.apiClient.setCanvasEnabled(enabled);
-        } catch (e) {
-          this.log.error(`[SignalRGB] ${name} failed: ${String(e)}`);
-
-          // snap UI back to real state
-          try {
-            const realEnabled = await this.apiClient.getCanvasEnabled();
-            service.updateCharacteristic(this.Characteristic.On, realEnabled);
-          } catch {}
-          throw e;
-        }
+        await this.apiClient.setCanvasEnabled(!!value);
       });
 
     if (!existing) {
