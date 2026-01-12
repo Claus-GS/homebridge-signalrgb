@@ -52,7 +52,7 @@ Add the platform in Homebridge UI or `config.json`:
 host — Local IP address of the PC running SignalRGB
 port — SignalRGB API port (default: 16038)
 
-⸻
+---
 
 ## Accessories in HomeKit
 
@@ -63,7 +63,7 @@ After restarting Homebridge, the following accessories will appear:
 
 The Rainbow and Solid switches act as momentary buttons and automatically reset after activation.
 
-⸻
+---
 
 ## Troubleshooting
 
@@ -76,7 +76,7 @@ If this fails, ensure:
 	•	Windows Firewall allows inbound connections on port 16038
 	•	Homebridge and the PC are on the same network
 
-⸻
+---
 
 ## License
 
