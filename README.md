@@ -47,8 +47,10 @@ Add the platform in Homebridge UI or `config.json`:
   "port": 16038
 }
 
-	•	host — Local IP address of the PC running SignalRGB
-	•	port — SignalRGB API port (default: 16038)
+```
+
+host — Local IP address of the PC running SignalRGB
+port — SignalRGB API port (default: 16038)
 
 ⸻
 
