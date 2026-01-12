@@ -1,5 +1,3 @@
-Perfect — here is a clean, professional, production-ready README.md you can paste directly into your repo.
-No fluff, no dev notes, written for normal Homebridge users.
 
 # Homebridge SignalRGB
 
