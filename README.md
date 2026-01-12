@@ -54,7 +54,7 @@ port — SignalRGB API port (default: 16038)
 
 ⸻
 
-##Accessories in HomeKit
+## Accessories in HomeKit
 
 After restarting Homebridge, the following accessories will appear:
 	•	Rainbow (switch)
@@ -65,7 +65,7 @@ The Rainbow and Solid switches act as momentary buttons and automatically reset 
 
 ⸻
 
-##Troubleshooting
+## Troubleshooting
 
 Verify the SignalRGB API is reachable:
 
@@ -78,6 +78,6 @@ If this fails, ensure:
 
 ⸻
 
-License
+## License
 
 Apache License 2.0
